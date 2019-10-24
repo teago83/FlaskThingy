@@ -18,25 +18,30 @@ def get(): #cadastrar
     matricula = 100000 + random.randint(1, 99999)
     print("Matrícula atribuída: %d" % (matricula))
     cassio.insert(nome, sobrenome, matricula)
-    predo = {
-        "nome" : nome,
-        "sobrenome" : sobrenome,
-        "matrícula" : matricula,
-    }
-    return predo
+    return "Aluno(a) matriculado(a) com sucesso."
 
 @app.route("/minhaaplicacao", methods=['POST'])
 def post(): #mostrar
-    return "batata"
+    print("Todos os alunos registrados:")
+    cassio.print_all()
+    return "Os alunos mostrados são os que foram registrados até agora."
 
-@app.route("/minhaaplicacao/<int:id>", methods=['PUT'])
-def put(id): #???
-    pass
+@app.route("/minhaaplicacao", methods=['PUT'])
+def put(): #??? acho que é o update aqui
+    print("Atualizar dados de um(a) aluno(a):")
+    matricula = int(input("Digite a matrícula do(a) aluno(a) que terá seus dados atualizados:"))
+    nome = input("Digite o novo nome do(a) aluno(a):")
+    sobrenome = input("Digite o novo sobrenome do(a) %s:" % (nome))
+    cassio.update(matricula, nome, sobrenome)
+    return "Aluno(a) atualizado(a) com sucesso."
 
-@app.route("/minhaaplicacao/<int:id>", methods=['DELETE'])
-def delete(id): #deletar
-    print(id)
-
+@app.route("/minhaaplicacao", methods=['DELETE'])
+def delete(): #deletar
+    print("Deletar dados de um(a) aluno(a):")
+    matricula = int(input("Digite a matrícula do(a) aluno(a)"
+                          "que terá seus dados deletados:"))
+    cassio.delete(matricula)
+    return "Aluno(a) deletado(a) com sucesso."
 
 if __name__ == '__main__':
     app.run(debug=True)
