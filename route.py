@@ -11,28 +11,24 @@ def index():
     return "Hello!"
 
 @app.route("/minhaaplicacao", methods=['GET'])
-def get(): #cadastrar
-    print("Cadastro do(a) aluno(a):")
-    nome = input("Digite o nome do(a) aluno(a):")
-    sobrenome = input("Digite o sobrenome do(a) aluno(a):")
-    matricula = 100000 + random.randint(1, 99999)
-    print("Matrícula atribuída: %d" % (matricula))
-    cassio.insert(nome, sobrenome, matricula)
-    return "Aluno(a) matriculado(a) com sucesso."
+def get(): #listar
+    listis = cassio.print_all()
+    print(listis)
+    return jsonify(listis)
+    #lista_alunos = cassio.print_all()
+    #return jsonify(lista_alunos)
+  
 
 @app.route("/minhaaplicacao", methods=['POST'])
-def post(): #mostrar
+def post(): #cadastrar
     print("Todos os alunos registrados:")
     cassio.print_all()
     return "Os alunos mostrados são os que foram registrados até agora."
 
-@app.route("/minhaaplicacao", methods=['PUT'])
-def put(): #??? acho que é o update aqui
-    print("Atualizar dados de um(a) aluno(a):")
-    matricula = int(input("Digite a matrícula do(a) aluno(a) que terá seus dados atualizados:"))
-    nome = input("Digite o novo nome do(a) aluno(a):")
-    sobrenome = input("Digite o novo sobrenome do(a) %s:" % (nome))
-    cassio.update(matricula, nome, sobrenome)
+@app.route("/minhaaplicacao/<int:matricula>", methods=['PUT'])
+def put(matricula): #??? acho que é o update aqui
+    data = request.json
+    cassio.update(data["nome"], data["sobrenome"], matricula)
     return "Aluno(a) atualizado(a) com sucesso."
 
 @app.route("/minhaaplicacao", methods=['DELETE'])
