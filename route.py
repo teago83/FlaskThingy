@@ -15,15 +15,13 @@ def get(): #listar
     listis = cassio.print_all()
     print(listis)
     return jsonify(listis)
-    #lista_alunos = cassio.print_all()
-    #return jsonify(lista_alunos)
-  
 
-@app.route("/minhaaplicacao", methods=['POST'])
-def post(): #cadastrar
-    print("Todos os alunos registrados:")
-    cassio.print_all()
-    return "Os alunos mostrados são os que foram registrados até agora."
+@app.route("/minhaaplicacao/<string:nome>/<string:sobrenome>", methods=['POST'])
+def post(nome, sobrenome): #cadastrar
+    data = request.json
+    matricula = 100000 + random.randint(1, 99999)
+    cassio.insert(data["nome"], data["sobrenome"], matricula)
+    return "Aluno(a) registrado(a) com sucesso."
 
 @app.route("/minhaaplicacao/<int:matricula>", methods=['PUT'])
 def put(matricula): #??? acho que é o update aqui
@@ -31,11 +29,8 @@ def put(matricula): #??? acho que é o update aqui
     cassio.update(data["nome"], data["sobrenome"], matricula)
     return "Aluno(a) atualizado(a) com sucesso."
 
-@app.route("/minhaaplicacao", methods=['DELETE'])
-def delete(): #deletar
-    print("Deletar dados de um(a) aluno(a):")
-    matricula = int(input("Digite a matrícula do(a) aluno(a)"
-                          "que terá seus dados deletados:"))
+@app.route("/minhaaplicacao/<int:matricula>", methods=['DELETE'])
+def delete(matricula): #deletar
     cassio.delete(matricula)
     return "Aluno(a) deletado(a) com sucesso."
 

@@ -38,17 +38,12 @@ class Aluno():
             return jsonify(nome=result[0][0],
                            sobrenome=result[0][1],
                            matricula=result[0][2])
-            print("Nome = ", result[0][0])
-            print("Sobrenome = ", result[0][1])
-            print("Matrícula = ", result[0][2])
         except (Exception, psycopg2.DatabaseError) as error:
             print("Error", error)
 
     def update(self, nome, sobrenome, matricula):
         try:
             conexao = Connection()
-            batata = "update aluno set nome = '{0}', sobrenome = '{1}' where matricula = {2}".format(nome, sobrenome, matricula)
-            print(batata)
-            conexao.update(batata)
+            conexao.update("update aluno set nome = '{0}', sobrenome = '{1}' where matricula = {2}".format(nome, sobrenome, matricula))
         except (Exception, psycopg2.DatabaseError) as error:
             print("Error", error)
