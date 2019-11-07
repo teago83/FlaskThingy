@@ -16,8 +16,8 @@ def get(): #listar
     print(listis)
     return jsonify(listis)
 
-@app.route("/minhaaplicacao/<string:nome>/<string:sobrenome>", methods=['POST'])
-def post(nome, sobrenome): #cadastrar
+@app.route("/minhaaplicacao", methods=['POST'])
+def post(): #cadastrar
     data = request.json
     matricula = 100000 + random.randint(1, 99999)
     cassio.insert(data["nome"], data["sobrenome"], matricula)
